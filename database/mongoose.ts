@@ -34,4 +34,6 @@ export async function connectToDB() {
   }
 
   console.log("Connected to DB " + process.env.NODE_ENV + " - " + MONGO_DB_URI);
+
+  return cached.conn;
 }

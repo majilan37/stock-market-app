@@ -5,12 +5,15 @@ import FormFooterLink from "@/components/FormFooterLink";
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/input-field";
 import SelectField from "@/components/ui/select-field";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
 import {
   INVESTMENT_GOALS,
   PREFERRED_INDUSTRIES,
   RISK_TOLERANCE_OPTIONS,
 } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function Register() {
   const {
@@ -30,9 +33,23 @@ function Register() {
     mode: "onBlur",
   });
 
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     try {
-    } catch (error) {}
+      const result = await signUpWithEmail(data);
+      if (result.success) {
+        router.push("/");
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Sign up failed", {
+        description:
+          error instanceof Error ? error.message : JSON.stringify(error),
+      });
+    }
   };
   return (
     <>

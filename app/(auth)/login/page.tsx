@@ -3,7 +3,10 @@
 import FormFooterLink from "@/components/FormFooterLink";
 import { Button } from "@/components/ui/button";
 import InputField from "@/components/ui/input-field";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function Login() {
   const {
@@ -11,7 +14,7 @@ function Login() {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<SignUpFormData>({
+  } = useForm<SignInFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -19,9 +22,23 @@ function Login() {
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     try {
-    } catch (error) {}
+      const result = await signInWithEmail(data);
+      if (result.success) {
+        router.push("/");
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Sign up failed", {
+        description:
+          error instanceof Error ? error.message : JSON.stringify(error),
+      });
+    }
   };
   return (
     <>

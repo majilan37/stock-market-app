@@ -3,7 +3,11 @@ import Link from "next/link";
 import NavItems from "./nav-items";
 import UserDropdown from "./user-dropdown";
 
-function Header() {
+interface Props {
+  user: User;
+}
+
+function Header({ user }: Props) {
   return (
     <header className="sticky top-0 header">
       <div className="container header-wrapper">
@@ -21,7 +25,7 @@ function Header() {
           <NavItems />
         </nav>
 
-        <UserDropdown />
+        <UserDropdown user={user} />
       </div>
     </header>
   );
