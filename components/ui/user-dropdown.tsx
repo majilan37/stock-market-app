@@ -19,17 +19,18 @@ import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
 import NavItems from "./nav-items";
+import { signOut } from "@/lib/actions/auth.actions";
 
-function UserDropdown() {
+interface Props {
+  user: User;
+}
+
+function UserDropdown({ user }: Props) {
   const router = useRouter();
 
   const handleSignOut = async () => {
+    await signOut();
     router.push("/register");
-  };
-
-  const user = {
-    name: "John",
-    email: "majilan@gmail.com",
   };
 
   return (
