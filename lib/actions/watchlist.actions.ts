@@ -21,9 +21,7 @@ export const getWatchlistSymbolsByEmail = async (
 
     if (!db) throw new Error("Mongoose connection not connected");
 
-    const user = await db
-      .collection<BetterAuthUser>("users")
-      .findOne({ email });
+    const user = await db.collection<BetterAuthUser>("user").findOne({ email });
 
     if (!user) return [];
 
