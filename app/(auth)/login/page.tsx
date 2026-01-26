@@ -72,9 +72,7 @@ function Login() {
           disabled={isSubmitting}
           className="yellow-btn w-full mt-5"
         >
-          {isSubmitting
-            ? "Creating an account"
-            : "Starting your investing journey"}
+          {isSubmitting ? "Loading..." : "Starting your investing journey"}
         </Button>
 
         <FormFooterLink

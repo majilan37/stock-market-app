@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import NavItems from "./nav-items";
 import UserDropdown from "./user-dropdown";
+import { searchStocks } from "@/lib/actions/finnhub.actions";
 
 interface Props {
   user: User;
 }
 
-function Header({ user }: Props) {
+async function Header({ user }: Props) {
+  const initialStocks = await searchStocks();
   return (
     <header className="sticky top-0 header">
       <div className="container header-wrapper">
@@ -22,10 +24,10 @@ function Header({ user }: Props) {
         </Link>
 
         <nav className="hidden sm:block ">
-          <NavItems />
+          <NavItems initialStocks={initialStocks} />
         </nav>
 
-        <UserDropdown user={user} />
+        <UserDropdown user={user} initialStocks={initialStocks} />
       </div>
     </header>
   );
