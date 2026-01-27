@@ -39,8 +39,7 @@ export default function SearchCommand({
   }, []);
 
   const handleSearch = async () => {
-   const handleSearch = async () => {
-     if (!isSearchMode) return setStocks(initialStocks);
+    if (!isSearchMode) return setStocks(initialStocks);
     if (!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true);
