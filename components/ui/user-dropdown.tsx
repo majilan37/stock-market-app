@@ -23,9 +23,10 @@ import { signOut } from "@/lib/actions/auth.actions";
 
 interface Props {
   user: User;
+  initialStocks: StockWithWatchlistStatus[];
 }
 
-function UserDropdown({ user }: Props) {
+function UserDropdown({ user, initialStocks }: Props) {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -82,7 +83,7 @@ function UserDropdown({ user }: Props) {
         </DropdownMenuItem>
         <DropdownMenuSeparator className="hidden sm:block bg-gray-600" />
         <nav className="sm:hidden">
-          <NavItems />
+          <NavItems initialStocks={initialStocks} />
         </nav>
       </DropdownMenuContent>
     </DropdownMenu>
