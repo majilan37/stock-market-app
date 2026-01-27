@@ -39,7 +39,8 @@ export default function SearchCommand({
   }, []);
 
   const handleSearch = async () => {
-    console.log("handleSearch function executed...");
+   const handleSearch = async () => {
+     if (!isSearchMode) return setStocks(initialStocks);
     if (!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true);
