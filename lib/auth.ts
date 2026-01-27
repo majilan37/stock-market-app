@@ -2,6 +2,7 @@ import { connectToDB } from "@/database/mongoose";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
+import { headers } from "next/headers";
 
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
@@ -33,3 +34,16 @@ export async function getAuth() {
 }
 
 export const auth = await getAuth();
+
+export const getServerSession = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id) return null;
+
+  return {
+    id: session.user.id,
+    email: session.user.email ?? "",
+  };
+};

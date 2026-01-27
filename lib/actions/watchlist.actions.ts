@@ -1,7 +1,6 @@
 "use server";
 
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { getServerSession } from "@/lib/auth";
 import { connectToDB } from "@/database/mongoose";
 import Watchlist from "@/database/models/watchlist.model";
 import type { ObjectId } from "mongodb";
@@ -10,19 +9,6 @@ type BetterAuthUser = {
   _id?: ObjectId;
   id?: string;
   email?: string;
-};
-
-const getSessionUser = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session?.user?.id) return null;
-
-  return {
-    id: session.user.id,
-    email: session.user.email ?? "",
-  };
 };
 
 export const getWatchlistSymbolsByEmail = async (
@@ -152,7 +138,7 @@ export const getWatchlistStatus = async (symbol: string) => {
         isInWatchlist: false,
       };
 
-    const user = await getSessionUser();
+    const user = await getServerSession();
     if (!user)
       return {
         success: false,
@@ -181,7 +167,7 @@ export const getWatchlistStatus = async (symbol: string) => {
 
 export const getWatchlistItemsForUser = async () => {
   try {
-    const user = await getSessionUser();
+    const user = await getServerSession();
     if (!user) return [];
 
     await connectToDB();
@@ -208,7 +194,7 @@ export const removeSymbolFromWatchlist = async (symbol: string) => {
         error: "Please provide a symbol",
       };
 
-    const user = await getSessionUser();
+    const user = await getServerSession();
     if (!user)
       return {
         success: false,
@@ -250,7 +236,7 @@ export const addSymbolToWatchlistForUser = async (
         error: "Please provide a symbol",
       };
 
-    const user = await getSessionUser();
+    const user = await getServerSession();
     if (!user)
       return {
         success: false,
